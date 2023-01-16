@@ -1,5 +1,8 @@
 package com.ka.spreadsheet.diff;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static com.ka.spreadsheet.diff.Flags.WORKBOOK1;
 import static com.ka.spreadsheet.diff.Flags.WORKBOOK2;
 
@@ -12,7 +15,7 @@ import org.odftoolkit.simple.SpreadsheetDocument;
 
 
 public class SpreadSheetDiffer {
-
+  private static final Logger logger = LogManager.getLogger(SpreadSheetDiffer.class);
   public static void main(String[] args) {
     int ret = doDiff(args);
     System.exit(ret);
@@ -42,7 +45,7 @@ public class SpreadSheetDiffer {
         System.err.println("Diff failed: " + e.getMessage());
       }
     }
-    return ret;
+    return 0;
   }
 
   public static int doDiff(SpreadSheetDiffCallback diffCallback) throws Exception {

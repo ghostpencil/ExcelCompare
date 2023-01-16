@@ -1,6 +1,8 @@
 package com.ka.spreadsheet.diff;
 
-import java.io.File;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ import static com.ka.spreadsheet.diff.SpreadSheetUtils.CELL_INTERNAL_TO_USER;
 //        ...
 // Each cell data line is always present, even if the data is empty (thus just "-" or "+).
 public class UnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackBase {
-
+  private static final Logger logger = LogManager.getLogger(UnifiedDiffSpreadSheetDiffCallback.class);
   private final String lineSeparator = System.getProperty("line.separator");
   private String file1;
   private String file2;
