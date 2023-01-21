@@ -1,5 +1,6 @@
 package com.ka.spreadsheet.diff;
 
+import com.ka.spreadsheet.util.LogUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +26,7 @@ public class SpreadSheetDiffer {
     int ret = -1;
     try {
       if (Flags.parseFlags(args)) {
+        LogUtil.initLogging(Flags.LOG_FILENAME);
         SpreadSheetDiffCallback formatter;
         switch (Flags.DIFF_FORMAT) {
           case EXCEL_CMP:

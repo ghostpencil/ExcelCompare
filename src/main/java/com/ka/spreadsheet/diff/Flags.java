@@ -15,6 +15,7 @@ public class Flags {
   public static Double DIFF_NUMERIC_PRECISION;
   public static boolean DIFF_IGNORE_FORMULAS;
   public static DiffFormatter DIFF_FORMAT;
+  public static String LOG_FILENAME;
   public static File WORKBOOK1;
   public static File WORKBOOK2;
   public static WorkbookIgnores WORKBOOK_IGNORES1;
@@ -58,8 +59,9 @@ public class Flags {
       System.out.println(usage());
       return false;
     }
-    WORKBOOK1 = new File(args[0]);
-    WORKBOOK2 = new File(args[1]);
+    LOG_FILENAME = args[0];
+    WORKBOOK1 = new File(args[1]);
+    WORKBOOK2 = new File(args[2]);
     WORKBOOK_IGNORES1 = WorkbookIgnores.parseWorkbookIgnores(args, "--ignore1");
     WORKBOOK_IGNORES2 = WorkbookIgnores.parseWorkbookIgnores(args, "--ignore2");
     return true;
