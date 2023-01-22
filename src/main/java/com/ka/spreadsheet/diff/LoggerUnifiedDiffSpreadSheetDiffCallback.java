@@ -1,6 +1,9 @@
 package com.ka.spreadsheet.diff;
 
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +27,8 @@ import static com.ka.spreadsheet.diff.SpreadSheetUtils.CELL_INTERNAL_TO_USER;
 //        +++ file_2_name!sheet_2_name
 //        ...
 // Each cell data line is always present, even if the data is empty (thus just "-" or "+).
-public class UnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackBase {
+public class LoggerUnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackBase {
+  private static final Logger cleanLogger = LogManager.getLogger("DisplayLogger");
   private final String lineSeparator = System.getProperty("line.separator");
   private String file1;
   private String file2;
@@ -47,7 +51,7 @@ public class UnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackB
   @Override
   public void reportMacroOnlyIn(boolean inFirstSpreadSheet) {
     super.reportMacroOnlyIn(inFirstSpreadSheet);
-    System.out.println("Unified diff format does not support macros, however WB" + (inFirstSpreadSheet ? "1" : "2") + " contains at least one macro that is not in the other workbook.");
+    cleanLogger.info("Unified diff format does not support macros, however WB" + (inFirstSpreadSheet ? "1" : "2") + " contains at least one macro that is not in the other workbook.");
   }
 
   @Override
@@ -77,8 +81,8 @@ public class UnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackB
   private void accumulateAndMaybePrint(DiffCell diffCell) {
     if (!isSameSheet(prevDiffCell, diffCell)) {
       printAndEmptyCellBlock();
-      System.out.println("--- " + file1 + "!" + diffCell.sheetName);
-      System.out.println("+++ " + file2 + "!" + diffCell.sheetName);
+      cleanLogger.info("--- " + file1 + "!" + diffCell.sheetName);
+      cleanLogger.info("+++ " + file2 + "!" + diffCell.sheetName);
     }
     if (!isSameRow(prevDiffCell, diffCell)) {
       printAndEmptyCellBlock();
@@ -112,7 +116,7 @@ public class UnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackB
           cellRange = cellRange + "," +
             CELL_INTERNAL_TO_USER(currentCellBlock.get(0).rowIndex, currentCellBlock.get(currentCellBlock.size()-1).colIndex);
       }
-      System.out.println("@@ -" + cellRange + " +" + cellRange + " @@");
+      cleanLogger.info("@@ -" + cellRange + " +" + cellRange + " @@");
       int prevCol = -1;
       for (DiffCell rowCell : currentCellBlock) {
         assert currentCellBlock.get(0).rowIndex == rowCell.rowIndex : "printAndEmptyCellBlock() only supports one row at a time.";
@@ -128,8 +132,8 @@ public class UnifiedDiffSpreadSheetDiffCallback extends SpreadSheetDiffCallbackB
         sheet1Lines.append(lineSeparator);
         sheet2Lines.append(lineSeparator);
       }
-      System.out.print(sheet1Lines.toString());
-      System.out.print(sheet2Lines.toString());
+      cleanLogger.info(sheet1Lines.toString());
+      cleanLogger.info(sheet2Lines.toString());
     }
     currentCellBlock = new ArrayList<DiffCell>();
   }

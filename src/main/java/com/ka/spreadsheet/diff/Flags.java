@@ -23,7 +23,9 @@ public class Flags {
 
   public enum DiffFormatter {
     EXCEL_CMP,
-    UNIFIED
+    UNIFIED,
+    LOGGER,
+    LOGGER_UNIFIED
   }
 
   public static boolean parseFlags(String[] args) {

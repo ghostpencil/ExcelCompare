@@ -44,6 +44,7 @@ public class ExcelSorter {
                     case 0:
                         LOG_FILENAME = args[i];
                         LogUtil.initLogging(LOG_FILENAME);
+                        LogUtil.initCleanLogging(LOG_FILENAME);
                         break;
                     case 1:
                         WORKBOOK_FILENAME = args[i];

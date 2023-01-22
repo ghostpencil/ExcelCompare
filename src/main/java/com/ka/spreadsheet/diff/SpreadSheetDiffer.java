@@ -1,8 +1,6 @@
 package com.ka.spreadsheet.diff;
 
 import com.ka.spreadsheet.util.LogUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import static com.ka.spreadsheet.diff.Flags.WORKBOOK1;
 import static com.ka.spreadsheet.diff.Flags.WORKBOOK2;
@@ -10,6 +8,8 @@ import static com.ka.spreadsheet.diff.Flags.WORKBOOK2;
 import java.io.File;
 import java.util.Iterator;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.odftoolkit.simple.SpreadsheetDocument;
@@ -27,6 +27,8 @@ public class SpreadSheetDiffer {
     try {
       if (Flags.parseFlags(args)) {
         LogUtil.initLogging(Flags.LOG_FILENAME);
+        LogUtil.initCleanLogging("display" + Flags.LOG_FILENAME);
+        logger.info("Hello");
         SpreadSheetDiffCallback formatter;
         switch (Flags.DIFF_FORMAT) {
           case EXCEL_CMP:
@@ -34,6 +36,12 @@ public class SpreadSheetDiffer {
             break;
           case UNIFIED:
             formatter = new UnifiedDiffSpreadSheetDiffCallback();
+            break;
+          case LOGGER:
+            formatter = new LoggerSpreadSheetDiffCallback();
+            break;
+          case LOGGER_UNIFIED:
+            formatter = new LoggerUnifiedDiffSpreadSheetDiffCallback();
             break;
           default:
             throw new IllegalArgumentException("Unknown diff formatter");
